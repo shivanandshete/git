@@ -25,7 +25,7 @@ pipeline {
             }
         }
     }
-    stage ('Copy Build on Server') {
+    stage ('Copy Build on a Server') {
 
             steps {
 				sshagent(['416c273a-eef6-44f3-a211-4b7abaef7115']) {
