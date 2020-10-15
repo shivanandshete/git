@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+        stages {
+        stage('Checkoutbackend') {
+        steps {
+            sh 'mkdir -p gitproject'
+            dir("gitproject")
+            {
+                git branch: "master",
+                credentialsId: '30af02e7-8d7a-4e31-ac25-5f47fe86c963',
+                url: 'https://github.com/shivanandshete/gitproject.git'
+            }
+        }
+    }
+
+    stage('CheckoutModule2') {
+        steps {
+            sh 'mkdir -p my-app'
+            dir("my-app")
+            {
+                git branch: "master",
+                credentialsId: 'git',
+                url: 'https://github.com/shivanandshete/my-app.git'
+            }
+        }
+    }
+    stage ('Copy Build on Server') {
+
+            steps {
+				sshagent(['416c273a-eef6-44f3-a211-4b7abaef7115']) {
+			sh "scp -o StrictHostKeyChecking=no /my-app /gitproject shiva@20.20.5.101:/home/shiva/data1 
+            }    
+            }
+			}
+    }
+}
